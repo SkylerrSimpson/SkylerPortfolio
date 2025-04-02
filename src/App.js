@@ -1,25 +1,58 @@
-import logo from './logo.svg';
 import './App.css';
+import { Suspense } from 'react';
+import { createBrowserRouter, RouterProvider} from 'react-router-dom';
+import Root from './Layout/Root';
+import { lazy } from 'react';
+const Home = lazy(() => import('./Pages/Home'));
+const AboutMe = lazy(() => import('./Pages/AboutMe'));
+const MyProjects = lazy(() => import('./Pages/MyProjects'));
+const Contact = lazy(() => import('./Pages/Contact'));
+const Resume = lazy(() => import('./Pages/Resume'));
 
-function App() {
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Root/>,
+    children: [
+      {
+        index: true,
+        element: <Home/>,
+      },
+      {
+        path: 'about-me',
+        element: <AboutMe />,
+      },
+      {
+        path: 'my-projects',
+        element: <MyProjects />,
+      },
+      {
+        path: 'contact',
+        element: <Contact />,
+      },
+      {
+        path: 'resume',
+        element: <Resume />,
+      },
+      {
+        path: '*',
+        element: <div>404 Not Found</div>
+      }
+    ]
+  }
+])
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <RouterProvider router = {router} />
+      </Suspense>
     </div>
-  );
+  )
+
 }
+
+
 
 export default App;
