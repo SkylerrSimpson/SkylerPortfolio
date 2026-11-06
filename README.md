@@ -46,38 +46,6 @@ Technology tags share `TechBadge`, including their icons and light/dark hover co
 
 Search and sharing metadata live in `src/lib/metadata.ts`, using `profile.website` as the canonical domain. The sitemap lists the homepage and current project pages. Alternate layouts and redirect pages are excluded from indexing.
 
-## Checks
-
-```sh
-pnpm typecheck
-pnpm test:unit
-pnpm format:check
-pnpm build
-```
-
-Type checking first generates Next.js route types. Unit tests cover theme resolution and project/section navigation. Browser tests cover navigation, light/dark themes, contrast, narrow layouts, clipboard feedback, and reduced motion:
-
-```sh
-pnpm exec playwright install chromium
-pnpm test:e2e
-```
-
-Playwright reuses the development server on port 3004 or starts one automatically. Screenshots and failure traces are written to ignored test-output directories.
-
-## TFTBIS screenshots
-
-The TFTBIS project page includes a feature walkthrough. Screenshots appear when the capture files are present in `public/projects/tftbis`.
-
-```sh
-pnpm capture:tftbis
-```
-
-The capture script expects the TFTBIS checkout at `../tftbis`, with its dependencies, PostgreSQL, Redis, and a published dataset available. Set `TFTBIS_DIR` to use another checkout. Playwright Chromium must also be installed.
-
-The script reuses TFTBIS on port 3002 or starts its web server. It captures populated champion builds, item-set results, and a build comparison at 1440×1000, then saves the images and capture date. It stops only the server it started. Data ingestion and workers are not started by the script.
-
-Review the captured images before committing them. Capture before building for production because screenshot availability is determined during page generation. In development, refresh the project page after capturing.
-
 ## Deployment
 
 ```sh
