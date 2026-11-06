@@ -1,43 +1,41 @@
 {
-  "name": "my-app",
-  "version": "0.1.0",
+  "name": "skyler-portfolio",
+  "version": "2.0.0",
   "private": true,
-  "dependencies": {
-    "@testing-library/dom": "^10.4.0",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.2.0",
-    "@testing-library/user-event": "^13.5.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-icons": "^5.5.0",
-    "react-router-dom": "^7.4.0",
-    "react-scripts": "5.0.1",
-    "react-scroll": "^1.9.3",
-    "styled-components": "^6.1.16",
-    "web-vitals": "^2.1.4"
+  "type": "module",
+  "engines": {
+    "node": ">=24"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "next dev --hostname 127.0.0.1 --port 3004",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test:unit": "node --experimental-strip-types --test tests/*.test.ts",
+    "test:e2e": "playwright test",
+    "capture:tftbis": "node scripts/capture-tftbis.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.39.0",
+    "next": "^16.4.2",
+    "radix-ui": "^1.6.7",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "tailwind-merge": "^3.6.0"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^26.1.2",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "prettier": "^3.9.6"
+  },
+  "packageManager": "pnpm@11.18.0"
 }

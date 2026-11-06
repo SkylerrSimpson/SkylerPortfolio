@@ -1,70 +1,86 @@
-# Getting Started with Create React App
+# Skyler Portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Personal website built with Next.js App Router, TypeScript, Tailwind CSS, and shadcn/ui.
 
-## Available Scripts
+## Development
 
-In the project directory, you can run:
+Requires Node.js 24 or newer and pnpm 11.18.
 
-### `npm start`
+```sh
+pnpm install --frozen-lockfile
+pnpm dev
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Open http://localhost:3004. The portfolio itself needs no database, API keys, or environment variables.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Editing content
 
-### `npm test`
+Profile information and page copy live in `src/lib/content.ts`:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- `profile` contains contact links and the About paragraphs.
+- `projects` contains the personal projects and their detail pages. Its order controls the homepage, project numbering, and next-project navigation. Adding an entry also adds its route at `/projects/[slug]`.
+- `experience` contains professional work.
+- `skills` groups the tools shown in About.
+- `archive` contains the earlier projects.
 
-### `npm run build`
+Project slugs must be unique. Next-project navigation wraps to the first entry and is omitted when only one project is listed.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Structure
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+| Path                | Purpose                                            |
+| ------------------- | -------------------------------------------------- |
+| `src/app`           | Routes, metadata, and shared CSS tokens            |
+| `src/components`    | Page sections and interactive controls             |
+| `src/components/ui` | Local shadcn components built on Radix             |
+| `src/hooks`         | Browser behavior, including section tracking       |
+| `src/lib`           | Content, theme preferences, and navigation helpers |
+| `tests`             | Unit and Playwright tests                          |
+| `scripts`           | Local screenshot capture                           |
+| `public`            | Fonts, project images, and asset licenses          |
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Pages render on the server. Client components handle navigation, theme selection, email copying, and the TFTBIS tabs. The theme follows the browser by default; visitors can save a Light, Dark, or System preference. Animations respect reduced-motion settings.
 
-### `npm run eject`
+The default layout is defined in `src/lib/directions.ts`. Alternate layouts at `/versions/workbench` and `/versions/editorial` share the same content and are marked `noindex`. Legacy Index URLs redirect to `/` and `/projects/[slug]`; `/contact` redirects to `/#contact`.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Technology tags share `TechBadge`, including their icons and light/dark hover colors. Fonts and icons are stored locally; their licenses are included in `public/fonts` and `public/licenses`.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Checks
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```sh
+pnpm typecheck
+pnpm test:unit
+pnpm format:check
+pnpm build
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Type checking first generates Next.js route types. Unit tests cover theme resolution and project/section navigation. Browser tests cover navigation, light/dark themes, contrast, narrow layouts, clipboard feedback, and reduced motion:
 
-## Learn More
+```sh
+pnpm exec playwright install chromium
+pnpm test:e2e
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Playwright reuses the development server on port 3004 or starts one automatically. Screenshots and failure traces are written to ignored test-output directories.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## TFTBIS screenshots
 
-### Code Splitting
+The TFTBIS project page includes a feature walkthrough. Screenshots appear when the capture files are present in `public/projects/tftbis`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```sh
+pnpm capture:tftbis
+```
 
-### Analyzing the Bundle Size
+The capture script expects the TFTBIS checkout at `../tftbis`, with its dependencies, PostgreSQL, Redis, and a published dataset available. Set `TFTBIS_DIR` to use another checkout. Playwright Chromium must also be installed.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+The script reuses TFTBIS on port 3002 or starts its web server. It captures populated champion builds, item-set results, and a build comparison at 1440×1000, then saves the images and capture date. It stops only the server it started. Data ingestion and workers are not started by the script.
 
-### Making a Progressive Web App
+Review the captured images before committing them. Capture before building for production because screenshot availability is determined during page generation. In development, refresh the project page after capturing.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Deployment
 
-### Advanced Configuration
+```sh
+pnpm build
+pnpm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Deploy to a host that supports Next.js. Production startup uses the host's `PORT` environment variable, defaulting to 3000. Development continues to use port 3004 on localhost.

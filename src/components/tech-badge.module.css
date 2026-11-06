@@ -1,0 +1,15 @@
+.badge {
+  --tech-hover: var(--tech-dark, var(--primary));
+  transition: color 120ms ease;
+}
+:global([data-theme="light"]) .badge {
+  --tech-hover: var(--tech-light, var(--primary));
+}
+.badge:hover {
+  color: var(--tech-hover);
+}
+@media (prefers-reduced-motion: reduce) {
+  .badge {
+    transition: none;
+  }
+}

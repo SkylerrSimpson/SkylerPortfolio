@@ -1,0 +1,39 @@
+.icons {
+  display: grid;
+  width: 1rem;
+  height: 1rem;
+}
+.icons svg {
+  grid-area: 1 / 1;
+  transition: opacity 100ms ease-out;
+}
+.copiedIcon {
+  opacity: 0;
+}
+.button[data-status="copied"] .copyIcon {
+  opacity: 0;
+}
+.button[data-status="copied"] .copiedIcon {
+  opacity: 1;
+}
+.labels {
+  display: grid;
+  text-align: center;
+}
+.labels span {
+  grid-area: 1 / 1;
+}
+.copiedLabel {
+  visibility: hidden;
+}
+.button[data-status="copied"] .idleLabel {
+  visibility: hidden;
+}
+.button[data-status="copied"] .copiedLabel {
+  visibility: visible;
+}
+@media (prefers-reduced-motion: reduce) {
+  .icons svg {
+    transition: none;
+  }
+}
