@@ -1,18 +1,13 @@
 import type { NextConfig } from "next";
+import { PHASE_DEVELOPMENT_SERVER } from "next/constants";
 
-const nextConfig: NextConfig = {
-  poweredByHeader: false,
-  async redirects() {
-    return [
-      { source: "/contact", destination: "/#contact", permanent: true },
-      { source: "/versions/index", destination: "/", permanent: true },
-      {
-        source: "/versions/index/projects/:slug",
-        destination: "/projects/:slug",
-        permanent: true,
-      },
-    ];
-  },
-};
-
-export default nextConfig;
+export default function nextConfig(phase: string): NextConfig {
+  return {
+    output: phase === PHASE_DEVELOPMENT_SERVER ? undefined : "export",
+    distDir: phase === PHASE_DEVELOPMENT_SERVER ? ".next" : "build",
+    poweredByHeader: false,
+    images: {
+      unoptimized: true,
+    },
+  };
+}

@@ -1,18 +1,28 @@
 import type { Metadata, Viewport } from "next";
+import { profile } from "@/lib/content";
+import { absoluteUrl, siteDescription, siteStructuredData, siteTitle } from "@/lib/metadata";
 import { themeInit } from "@/lib/theme";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: { default: "Skyler Simpson | Software Developer", template: "%s | Skyler Simpson" },
-  description:
-    "PHP, Laravel, and TypeScript developer. Personal projects include CigolFlow and TFTBIS, alongside professional work on DowsScripts and Usurper.",
-  applicationName: "Skyler Simpson",
+  metadataBase: new URL(profile.website),
+  title: { default: siteTitle, template: `%s | ${profile.name}` },
+  description: siteDescription,
+  applicationName: profile.name,
+  authors: [{ name: profile.name, url: profile.website }],
+  alternates: { canonical: absoluteUrl() },
   openGraph: {
-    title: "Skyler Simpson | Software Developer",
-    description: "Projects and professional work in PHP, Laravel, and TypeScript.",
-    siteName: "Skyler Simpson",
+    title: siteTitle,
+    description: siteDescription,
+    url: absoluteUrl(),
+    siteName: profile.name,
     type: "website",
     locale: "en_US",
+  },
+  twitter: {
+    card: "summary",
+    title: siteTitle,
+    description: siteDescription,
   },
 };
 
@@ -28,6 +38,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" data-theme="light" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(siteStructuredData).replace(/</g, "\\u003c"),
+          }}
+        />
       </head>
       <body>{children}</body>
     </html>

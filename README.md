@@ -38,11 +38,13 @@ Project slugs must be unique. Next-project navigation wraps to the first entry a
 | `scripts`           | Local screenshot capture                           |
 | `public`            | Fonts, project images, and asset licenses          |
 
-Pages render on the server. Client components handle navigation, theme selection, email copying, and the TFTBIS tabs. The theme follows the browser by default; visitors can save a Light, Dark, or System preference. Animations respect reduced-motion settings.
+Pages render at build time. Client components handle navigation, theme selection, email copying, and the TFTBIS tabs. The theme follows the browser by default; visitors can save a Light, Dark, or System preference. Animations respect reduced-motion settings.
 
-The default layout is defined in `src/lib/directions.ts`. Alternate layouts at `/versions/workbench` and `/versions/editorial` share the same content and are marked `noindex`. Legacy Index URLs redirect to `/` and `/projects/[slug]`; `/contact` redirects to `/#contact`.
+The default layout is defined in `src/lib/directions.ts`. Alternate layouts at `/versions/workbench` and `/versions/editorial` share the same content and are marked `noindex`. Legacy Index URLs redirect to `/` and `/projects/[slug]`; `/contact` redirects to `/#contact`. These redirects use static HTML with a refresh instruction and a fallback link, so they also work without JavaScript.
 
 Technology tags share `TechBadge`, including their icons and light/dark hover colors. Fonts and icons are stored locally; their licenses are included in `public/fonts` and `public/licenses`.
+
+Search and sharing metadata live in `src/lib/metadata.ts`, using `profile.website` as the canonical domain. The sitemap lists the homepage and current project pages. Alternate layouts and redirect pages are excluded from indexing.
 
 ## Checks
 
@@ -80,7 +82,18 @@ Review the captured images before committing them. Capture before building for p
 
 ```sh
 pnpm build
-pnpm start
 ```
 
-Deploy to a host that supports Next.js. Production startup uses the host's `PORT` environment variable, defaulting to 3000. Development continues to use port 3004 on localhost.
+The site uses Next.js static export. Publish the entire `build` directory, including the route payloads used by client-side navigation. No Node.js server or start command is needed in production. Local development uses `pnpm dev` on port 3004.
+
+For the Render Static Site:
+
+| Setting           | Value           |
+| ----------------- | --------------- |
+| Branch            | `main`          |
+| Build command     | `npm run build` |
+| Publish directory | `build`         |
+
+Render installs dependencies using the committed pnpm lockfile. Remove any old `/*` → `/index.html` rewrite: each route now has its own HTML file, and unknown paths should return the exported `404.html` page.
+
+After deployment, check the homepage, a direct project URL, `/contact`, and a missing page. Images are served as static files; image optimization does not require a server.

@@ -1,5 +1,6 @@
 export const profile = {
   name: "Skyler Simpson",
+  website: "https://www.skylerrsimpson.com",
   email: "skylerrsimpson@gmail.com",
   github: "https://github.com/SkylerrSimpson",
   linkedin: "https://www.linkedin.com/in/skyler-simpson1/",
