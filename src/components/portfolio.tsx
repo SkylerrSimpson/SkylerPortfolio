@@ -5,7 +5,15 @@ import { Button } from "@/components/ui/button";
 import { TechBadge } from "@/components/tech-badge";
 import { CopyEmail } from "@/components/copy-email";
 import { SiteFrame } from "@/components/site-frame";
-import { archive, profile, projects, experience, skills, getProjectNumber } from "@/lib/content";
+import {
+  archive,
+  profile,
+  projects,
+  experience,
+  skills,
+  getProjectNumber,
+  toolsHub,
+} from "@/lib/content";
 import type { Direction } from "@/lib/directions";
 
 export function Portfolio({ direction, home = "/" }: { direction: Direction; home?: string }) {
@@ -162,6 +170,14 @@ export function Portfolio({ direction, home = "/" }: { direction: Direction; hom
         </div>
       </section>
       <section className="archive-section shell">
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+          <p className="text-sm leading-relaxed text-muted-foreground">{toolsHub.description}</p>
+          <Button asChild variant="outline">
+            <a href={toolsHub.href}>
+              Tools hub <ArrowUpRight aria-hidden="true" />
+            </a>
+          </Button>
+        </div>
         <details>
           <summary>
             <span>
@@ -169,7 +185,7 @@ export function Portfolio({ direction, home = "/" }: { direction: Direction; hom
             </span>
             <ChevronDown size={18} />
           </summary>
-          <p className="archive-intro">Projects from when I was learning web development.</p>
+          <p className="archive-intro">Original project sources.</p>
           <div className="archive-list">
             {archive.map((project) => (
               <a key={project.name} href={project.href} target="_blank" rel="noreferrer">
