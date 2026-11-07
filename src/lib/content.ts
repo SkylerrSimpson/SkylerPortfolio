@@ -11,6 +11,11 @@ export const profile = {
   ],
 };
 
+export const toolsHub = {
+  href: "https://tools.skylerrsimpson.com",
+  description: "Next.js versions of my earlier learning projects.",
+};
+
 export type Project = {
   slug: string;
   name: string;
