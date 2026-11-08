@@ -68,11 +68,20 @@ export function ProjectDetail({
               </Link>
             </div>
           )}
-          <Button variant="outline" asChild>
-            <Link href={`${home}#contact`}>
-              Talk about this project <ArrowUpRight />
-            </Link>
-          </Button>
+          <div className="project-actions">
+            {project.links?.map((link) => (
+              <Button key={link.href} variant="outline" asChild>
+                <a href={link.href} target="_blank" rel="noreferrer">
+                  {link.label} <ArrowUpRight />
+                </a>
+              </Button>
+            ))}
+            <Button variant="outline" asChild>
+              <Link href={`${home}#contact`}>
+                Talk about this project <ArrowUpRight />
+              </Link>
+            </Button>
+          </div>
         </div>
       </div>
     </SiteFrame>

@@ -7,7 +7,7 @@ const { getNextProject, projects } = await import(
 
 test("project navigation follows the catalog order and wraps", () => {
   const third = { ...projects[0], slug: "third" };
-  const ordered = [...projects, third];
+  const ordered = [projects[0], projects[1], third];
   assert.equal(getNextProject(projects[0].slug, ordered), projects[1]);
   assert.equal(getNextProject(projects[1].slug, ordered), third);
   assert.equal(getNextProject("third", ordered), projects[0]);

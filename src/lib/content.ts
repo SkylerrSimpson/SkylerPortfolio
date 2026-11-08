@@ -26,6 +26,7 @@ export type Project = {
   focus: string;
   overview: string;
   details: { title: string; description: string }[];
+  links?: { label: string; href: string }[];
 };
 
 export const projects: Project[] = [
@@ -87,6 +88,40 @@ export const projects: Project[] = [
         description:
           "The Excel integration uses Office.js. I develop the React viewer against a simulated spreadsheet so I can test document selection, links, and saving in a browser.",
       },
+    ],
+  },
+  {
+    slug: "lummi-vessel-tracker",
+    name: "Lummi Vessel Tracker",
+    category: "Web application",
+    headline: "Monitoring tribal waters from public ship data",
+    description:
+      "A map that shows which vessels are in Lummi Nation waters and emails staff when an unapproved one enters.",
+    tags: ["Next.js", "TypeScript", "Leaflet", "Python"],
+    focus:
+      "Built in one day with a team of four at the WWU Social Justice Hackathon. I built most of the web app: the map, live and history modes, the alert panel, and the settings staff use to approve vessels.",
+    overview:
+      "Non-tribal fishing vessels sometimes enter waters reserved for Lummi fishermen under their treaty rights, and nobody watches those waters around the clock. Lummi Vessel Tracker reads public AIS ship positions, works out which vessels are inside the reservation boundary and which just crossed in, and alerts Lummi Nation staff when a vessel they haven’t approved enters.",
+    details: [
+      {
+        title: "Live and recorded data",
+        description:
+          "A Python service keeps one connection to a live AIS feed and streams vessel positions to the map. History mode replays any archived day, and a recorded set of 219,863 positions from 224 vessels keeps the demo reliable.",
+      },
+      {
+        title: "Boundary crossings and alerts",
+        description:
+          "Each position is checked against the reservation boundary. A vessel that is not on the approved list turns red when it crosses in, appears in the Alerts tab, and triggers an email to the address staff have saved.",
+      },
+      {
+        title: "Lists staff control",
+        description:
+          "Staff approve vessels by call-sign codes, such as the seventeen tribal codes, or one at a time, and keep a watch list. Private boats are anonymized, and the only alerting vessel in the demo is a labeled synthetic one, so no real boat is accused.",
+      },
+    ],
+    links: [
+      { label: "Source code", href: "https://github.com/SkylerrSimpson/wwu-sj-hack" },
+      { label: "Live site", href: "https://wwu-sj-hack.vercel.app" },
     ],
   },
 ];

@@ -1074,12 +1074,17 @@ h2 {
   align-items: center;
   gap: 25px;
 }
-.project-next > div > a {
+.project-next > div:not(.project-actions) > a {
   font-size: 30px;
   display: flex;
   align-items: center;
   gap: 30px;
   margin-top: 12px;
+}
+.project-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 .message-page {
   min-height: 70vh;
